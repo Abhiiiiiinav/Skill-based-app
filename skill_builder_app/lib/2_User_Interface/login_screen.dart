@@ -26,7 +26,7 @@ Widget _buildTextField({
         const SizedBox(height: 8),
         Container(
           decoration: BoxDecoration(
-            color: Colors.grey[50],
+            color: const Color.fromARGB(255, 234, 234, 234),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: Colors.grey[200]!),
           ),
@@ -88,7 +88,7 @@ class LoginScreen extends StatelessWidget {
                   width: 400,
                   decoration: BoxDecoration(
                     // image: DecorationImage(image: ),
-                    color: const Color.fromARGB(255, 231, 255, 247),
+                    color: const Color.fromARGB(255, 246, 250, 249),
 
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     boxShadow: [
@@ -100,16 +100,26 @@ class LoginScreen extends StatelessWidget {
                   ),
 
                   child: Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 20),
-                        Text("Welcome to LOGIN", style: GoogleFonts.hanuman(fontSize: 25)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(28.0),
+                      child: Column(
                         
-                        SizedBox(height: 50),
-                        _buildTextField(controller: email, label: "Email", hint: "Enter Email ID", icon: Icons.email),
-                        SizedBox(height: 40),
-                        _buildTextField(controller: pass, label:"Password", hint: "Enter  the Password", icon: Icons.password,isPassword: true),
-                      ],
+                        children: [
+                          
+                          SizedBox(height: 20),
+                          Text("Welcome to LOGIN", style: GoogleFonts.hanuman(fontSize: 25)),
+                          
+                          SizedBox(height: 50),
+                          _buildTextField(controller: email, label: "Email", hint: "Enter Email ID", icon: Icons.email),
+                          SizedBox(height: 40),
+                          _buildTextField(controller: pass, label:"Password", hint: "Enter  the Password", icon: Icons.password,isPassword: true),
+                          SizedBox(height: 10),
+                          Align(alignment: Alignment.centerRight,child: TextButton(onPressed: (){}, child: Text("Forgot Passsword??"))),
+                          SizedBox(height: 10),
+                        Align(alignment:Alignment.bottomLeft,child: ElevatedButton(onPressed: (){}, child: Text("Submit")),),
+                      
+                        ],
+                      ),
                     ),
                   ),
                 ),
