@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:skill_builder_app/2_User_Interface/sign_up_screen.dart';
+import "colorpallate.dart";
 Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -49,6 +50,7 @@ Widget _buildTextField({
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               hintStyle: TextStyle(color: Colors.grey[400]),
+              
             ),
           ),
         ),
@@ -57,11 +59,19 @@ Widget _buildTextField({
   }
 
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController email = TextEditingController();
+
   final TextEditingController pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -99,32 +109,73 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
 
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(28.0),
-                      child: Column(
+                  child: SingleChildScrollView(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(28.0),
+                        child: Column(
+                          
+                          children: [
+                            
+                            SizedBox(height: 20),
+                            Text("Welcome to LOGIN", style: GoogleFonts.hanuman(fontSize: 25)),
+                            
+                            SizedBox(height: 50),
+                            _buildTextField(
+                              controller: email,
+                              label: "Email",
+                              hint: "Enter Email ID",
+                              icon: Icons.email
+                              ),
+
+                            SizedBox(height: 40),
+
+                            _buildTextField(
+                              controller: pass, 
+                              label:"Password", 
+                              hint: "Enter  the Password",
+                              icon: Icons.password,
+                              isPassword: true,
+                            )
+                            ,
+                            SizedBox(height: 10),
+                            Align(alignment: Alignment.centerRight,child: TextButton(onPressed: (){}, child: Text("Forgot Passsword??"))),
+                            SizedBox(height: 10),
+                            Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(colors: [ColorPalette.lightpowdergreen,ColorPalette.lightpowderblue]),
+                                borderRadius: BorderRadius.all(Radius.circular(12)),
+                                boxShadow: [BoxShadow(
+                                  blurRadius: 9,
+                                  color: const Color.fromARGB(82, 22, 158, 155)
+                                )]
+                              ),
+                             child: ElevatedButton(onPressed: (){}, style:
+                              ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadiusGeometry.circular(10)
+                                ),
+                            
+                             
+                             ),
+                             child: Text("Submit",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 20,color: ColorPalette.secondaryCream,letterSpacing: 1.4),)
+                            
+                             )
+                              ),
+                              SizedBox(height: 30),
+                              TextButton(onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpPage()));
+                              },
+                               child: Text("Login")
+                              ),
+                          
                         
-                        children: [
-                          
-                          SizedBox(height: 20),
-                          Text("Welcome to LOGIN", style: GoogleFonts.hanuman(fontSize: 25)),
-                          
-                          SizedBox(height: 50),
-                          _buildTextField(controller: email, label: "Email", hint: "Enter Email ID", icon: Icons.email),
-                          SizedBox(height: 40),
-                          _buildTextField(controller: pass, label:"Password", hint: "Enter  the Password", icon: Icons.password,isPassword: true),
-                          SizedBox(height: 10),
-                          Align(alignment: Alignment.centerRight,child: TextButton(onPressed: (){}, child: Text("Forgot Passsword??"))),
-                          SizedBox(height: 10),
-                          Container(
-                            width: double.infinity,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(colors: [])
-                            ),),
-                        Align(alignment:Alignment.centerLeft,child: ElevatedButton(onPressed: (){}, child: Text("Submit")),),
-                      
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
