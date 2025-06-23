@@ -116,7 +116,13 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(height: 10),
                           Align(alignment: Alignment.centerRight,child: TextButton(onPressed: (){}, child: Text("Forgot Passsword??"))),
                           SizedBox(height: 10),
-                        Align(alignment:Alignment.bottomLeft,child: ElevatedButton(onPressed: (){}, child: Text("Submit")),),
+                          Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [])
+                            ),),
+                        Align(alignment:Alignment.centerLeft,child: ElevatedButton(onPressed: (){}, child: Text("Submit")),),
                       
                         ],
                       ),

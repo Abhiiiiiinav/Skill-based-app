@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
 
 import 'colorpallate.dart';
 
@@ -145,7 +146,14 @@ class SignUpPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => LoginScreen(),
+                                  ),
+                                );
+                              },
                               child: Text("Already have an account ?"),
                             ),
                           ),
