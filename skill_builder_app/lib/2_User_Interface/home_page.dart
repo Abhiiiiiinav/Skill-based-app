@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   late final String uid;
   String readname = "";
   String documentId = 'demo-user';
+  String? selectedVal = "Others";
 
   Widget buildTextField({
   required TextEditingController controller,
@@ -77,6 +78,56 @@ class _HomeState extends State<Home> {
     ],
   );
 }
+
+Widget buildDropdownField<T>({
+  required TextEditingController controller,
+  required Text labelText,
+  required String selectedValue,
+  required List<T> items,
+  required ValueChanged<T?> onChanged,
+  IconData? icon,
+  String? hintText,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      labelText,
+      const SizedBox(height: 8),
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(255, 234, 234, 234),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<T>(
+            isExpanded: true,
+            icon: Icon(Icons.keyboard_arrow_down, color: Colors.grey[600]),
+            value: selectedValue as T,
+            hint: Text(hintText ?? "Select"),
+            items: items.map((T item) {
+              return DropdownMenuItem<T>(
+                value: item,
+                child: Row(
+                  children: [
+                    if (icon != null) ...[
+                      Icon(icon, color: Colors.grey[600]),
+                      const SizedBox(width: 10),
+                    ],
+                    Text(item.toString()),
+                  ],
+                ),
+              );
+            }).toList(),
+            onChanged: onChanged,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
 
   /* 
 ================================================
@@ -176,7 +227,12 @@ class _HomeState extends State<Home> {
                     controller: _title, 
                     label: Text("Title",style: GoogleFonts.hanuman(color: ColorPalette.primaryNavy),),
                      hint:"Enter the Title",
-                      icon: Icons.title)
+                      icon: Icons.title),
+                      buildDropdownField(controller:_category,labelText:  Text("Category"), selectedValue: selectedVal??"Others", items: ["Health","Coding","Self Improvement","Others"], onChanged: (value)=>{
+                        setState(() {
+                          selectedVal = value;
+                        })
+                      })
                       
                       
                     ],
