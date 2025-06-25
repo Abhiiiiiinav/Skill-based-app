@@ -4,7 +4,7 @@ import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
 
 import 'colorpallate.dart';
 
-Widget _buildTextField({
+Widget buildTextField({
   required TextEditingController controller,
   required String label,
   required String hint,
@@ -121,21 +121,21 @@ class SignUpPage extends StatelessWidget {
                           ),
 
                           SizedBox(height: 50),
-                          _buildTextField(
+                          buildTextField(
                             controller: name,
                             label: "Name",
                             hint: "Enter Your Name",
                             icon: Icons.person,
                           ),
                           SizedBox(height: 20),
-                          _buildTextField(
+                          buildTextField(
                             controller: email,
                             label: "Email",
                             hint: "Enter Email ID",
                             icon: Icons.email,
                           ),
                           SizedBox(height: 20),
-                          _buildTextField(
+                          buildTextField(
                             controller: pass,
                             label: "Password",
                             hint: "Enter  the Password",

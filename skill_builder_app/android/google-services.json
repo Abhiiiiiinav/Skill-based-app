@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "138491269064",
+    "project_id": "skill-tracker-app-b227c",
+    "storage_bucket": "skill-tracker-app-b227c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:138491269064:android:812d700c457ba7c9d37afd",
+        "android_client_info": {
+          "package_name": "com.example.skill_builder_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwkplvwGdad8ojqLZ3q-qZaF8a4lkNf8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
