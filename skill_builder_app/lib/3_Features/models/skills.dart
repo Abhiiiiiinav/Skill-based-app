@@ -4,7 +4,7 @@ class Skills {
   final String id;
   final String title;
   final String? category;
-  final int completedDays;
+  final String duration;
   final int totalDays;
   final List<Task>? tasks;
 
@@ -13,7 +13,7 @@ class Skills {
     required this.title,
     this.category,
     required this.totalDays,
-    required this.completedDays,
+    required this.duration,
     this.tasks,
   });
 
@@ -30,7 +30,7 @@ class Skills {
       id: id,
       title: map['title'] ?? '',
       category: map['category'],
-      completedDays: map['completedDays'] ?? 0,
+      duration: map['duration'] ?? 0,
       totalDays: map['totalDays'] ?? 0,
       tasks: []
     );
@@ -41,7 +41,7 @@ class Skills {
     return {
       'title': title,
       'category': category,
-      'completedDays': completedDays,
+      'completedDays': duration,
       'totalDays': totalDays,
       
     };
