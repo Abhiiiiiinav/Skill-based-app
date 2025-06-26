@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
@@ -63,11 +64,31 @@ Widget buildTextField({
   );
 }
 
-class SignUpPage extends StatelessWidget {
-  final TextEditingController name = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController pass = TextEditingController();
+class SignUpPage extends StatefulWidget {
+
   SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+  final TextEditingController name = TextEditingController();
+
+  final TextEditingController email = TextEditingController();
+
+  final TextEditingController pass = TextEditingController();
+
+  Future<void> createAcc() async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.text.trim(),
+        password: pass.text.trim(),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +182,9 @@ class SignUpPage extends StatelessWidget {
                           Align(
                             alignment: Alignment.bottomLeft,
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                              createAcc();
+                            },
                               child: Text("Submit"),
                             ),
                           ),

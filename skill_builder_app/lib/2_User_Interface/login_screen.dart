@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skill_builder_app/2_User_Interface/add_skills.dart';
 import 'package:skill_builder_app/2_User_Interface/home_page.dart';
 import 'package:skill_builder_app/2_User_Interface/sign_up_screen.dart';
 import "colorpallate.dart";
@@ -88,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => Home()),
+        MaterialPageRoute(builder: (_) => HomePage()),
       );
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
