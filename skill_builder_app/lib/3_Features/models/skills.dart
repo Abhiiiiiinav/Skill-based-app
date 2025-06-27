@@ -27,6 +27,7 @@ class SkillDetailScreen extends StatefulWidget {
 }
 
 class _SkillDetailScreenState extends State<SkillDetailScreen> {
+  TextEditingController _task = TextEditingController();
   late List<Task> taskList;
 
   @override
@@ -43,10 +44,9 @@ class _SkillDetailScreenState extends State<SkillDetailScreen> {
         .doc(widget.skillId);
 
     await ref.update({
-      "tasks": taskList.map((t) => {
-            "title": t.title,
-            "isCompleted": t.isCompleted,
-          }).toList(),
+      "tasks": taskList
+          .map((t) => {"title": t.title, "isCompleted": t.isCompleted})
+          .toList(),
     });
   }
 
@@ -74,7 +74,7 @@ class _SkillDetailScreenState extends State<SkillDetailScreen> {
               await updateTasksToFirebase();
             },
             child: const Text("Save"),
-          )
+          ),
         ],
       ),
     );
@@ -83,42 +83,25 @@ class _SkillDetailScreenState extends State<SkillDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        backgroundColor: Colors.teal,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Category: ${widget.category}", style: const TextStyle(fontSize: 16)),
-            Text("Duration: ${widget.duration}", style: const TextStyle(fontSize: 16)),
-            Text("Total Days: ${widget.totalDays}", style: const TextStyle(fontSize: 16)),
-            const SizedBox(height: 20),
-            const Text("Tasks", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            const Divider(),
-            Expanded(
-              child: taskList.isEmpty
-                  ? const Center(child: Text("No tasks found"))
-                  : ListView.builder(
-                      itemCount: taskList.length,
-                      itemBuilder: (context, index) {
-                        final task = taskList[index];
-                        return CheckboxListTile(
-                          title: Text(task.title),
-                          value: task.isCompleted,
-                          onChanged: (_) => toggleTask(index),
-                          secondary: IconButton(
-                            icon: const Icon(Icons.edit),
-                            onPressed: () => editTask(index),
-                          ),
-                        );
-                      },
-                    ),
+      body: Column(
+        children: [
+          SizedBox(height: 50),
+          TextField(
+            controller: _task,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
             ),
-          ],
-        ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              final String task = _task.text.trim();
+              taskList.add(task as Task);
+            },
+            child: Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }

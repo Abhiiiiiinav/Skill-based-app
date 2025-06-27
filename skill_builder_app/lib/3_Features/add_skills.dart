@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
+import 'package:skill_builder_app/2_User_Interface/home_page.dart';
 import 'package:skill_builder_app/3_Features/models/skills.dart';
-
 
 import 'package:skill_builder_app/3_Features/models/skills.dart';
 
@@ -21,14 +24,22 @@ class _AddSkillState extends State<AddSkill> {
   // final TextEditingController controller = TextEditingController(); // This controller seems unused
 
   // ... (rest of your existing variables are fine)
-  final CollectionReference users =
-      FirebaseFirestore.instance.collection("users");
+  CollectionReference get namecollection => FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("Skills");
+
+  final CollectionReference users = FirebaseFirestore.instance.collection(
+    "users",
+  );
+
   late final String uid;
 
   String? selectedVal = "Others";
-  String? selectedDurationLabel = "7 Days";
+  String? selectedDurationLabel = "1 Day";
 
   final Map<String, int> durationMap = {
+    "1 Day": 1,
     "7 Days": 7,
     "15 Days": 15,
     "30 Days": 30,
@@ -38,53 +49,48 @@ class _AddSkillState extends State<AddSkill> {
     "365 Days": 365,
   };
 
-  CollectionReference get namecollection => FirebaseFirestore.instance
-      .collection("users")
-      .doc(uid)
-      .collection("Skills");
-
   @override
   void initState() {
     super.initState();
-    uid = "test-user-id"; // 🔁 Replace with FirebaseAuth.instance.currentUser!.uid when auth is integrated
+
+    uid = FirebaseAuth.instance.currentUser!.uid; //!: Change this before Production
   }
 
-  // 🔄 MODIFIED: This function now also navigates to the SkillsWidget
   Future<void> uploadAndNavigate() async {
     // Basic validation
     if (_title.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text("Title cannot be empty."),
-            backgroundColor: Colors.red),
+          content: Text("Title cannot be empty."),
+          backgroundColor: Colors.red,
+        ),
       );
-      return; 
+      return;
     }
 
     try {
-
       final String title = _title.text.trim();
       final String category = selectedVal!;
       final String durationLabel = selectedDurationLabel!;
-      final int durationInDays = durationMap[durationLabel] ?? 7;
+      final int durationInDays = durationMap[durationLabel] ?? 1;
 
       final data = {
         "title": title,
         "category": category,
-        "duration": durationInDays, // Storing the integer value is good practice
+        "duration":
+            durationInDays, // Storing the integer value is good practice
         "createdAt": Timestamp.now(),
       };
-
 
       DocumentReference docRef = await namecollection.add(data);
 
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-            content: Text("Skill added successfully!"),
-            backgroundColor: Colors.green),
+          content: Text("Skill added successfully!"),
+          backgroundColor: Colors.green,
+        ),
       );
-
 
       if (mounted) {
         Navigator.push(
@@ -92,7 +98,7 @@ class _AddSkillState extends State<AddSkill> {
           MaterialPageRoute(
             builder: (context) => SkillDetailScreen(
               uid: docRef.id,
-              skillId: '1',
+              skillId: docRef.id,
               title: title,
               category: category,
               duration: durationLabel, // e.g., "90 Days"
@@ -105,13 +111,27 @@ class _AddSkillState extends State<AddSkill> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-            content: Text("Error uploading skill: $e"),
-            backgroundColor: Colors.red),
+          content: Text("Error uploading skill: $e"),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
 
-  // ... (Your buildTextField and buildDropdownField methods remain the same)
+
+  Future<void> addDetails() async {
+    final String title = _title.text.trim();
+    final String category = selectedVal!;
+    final String durationLabel = selectedDurationLabel!;
+    final int durationInDays = durationMap[durationLabel] ?? 1;
+    await FirebaseFirestore.instance.collection("users").doc(uid).set({
+      "name": title,
+      "category": category,
+      "duration": durationInDays,
+      "createdAt": DateTime.now(),
+    });
+  }
+
   Widget buildTextField({
     required TextEditingController controller,
     required Text label,
@@ -143,14 +163,19 @@ class _AddSkillState extends State<AddSkill> {
               suffixIcon: isPassword
                   ? IconButton(
                       icon: Icon(
-                        isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                        isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.grey[400],
                       ),
                       onPressed: onTogglePassword,
                     )
                   : null,
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 16,
+              ),
               hintStyle: TextStyle(color: Colors.grey[400]),
             ),
           ),
@@ -208,7 +233,6 @@ class _AddSkillState extends State<AddSkill> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -221,9 +245,10 @@ class _AddSkillState extends State<AddSkill> {
               Text(
                 "Add a Skill Here",
                 style: GoogleFonts.hanuman(
-                    color: ColorPalette.neutralLightGray,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25),
+                  color: ColorPalette.neutralLightGray,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 25,
+                ),
               ),
               const SizedBox(height: 50),
               Container(
@@ -237,16 +262,22 @@ class _AddSkillState extends State<AddSkill> {
                   children: [
                     buildTextField(
                       controller: _title,
-                      label: Text("Title",
-                          style: GoogleFonts.hanuman(
-                              color: ColorPalette.primaryNavy)),
+                      label: Text(
+                        "Title",
+                        style: GoogleFonts.hanuman(
+                          color: ColorPalette.primaryNavy,
+                        ),
+                      ),
                       hint: "Enter the Title",
                       icon: Icons.title,
                     ),
                     const SizedBox(height: 30),
                     buildDropdownField<String>(
                       controller: _category,
-                      labelText: Text("Category:", style: GoogleFonts.hanuman()),
+                      labelText: Text(
+                        "Category:",
+                        style: GoogleFonts.hanuman(),
+                      ),
                       selectedValue: selectedVal ?? "Others",
                       items: ["Health", "Coding", "Self Improvement", "Others"],
                       onChanged: (value) {
@@ -258,7 +289,10 @@ class _AddSkillState extends State<AddSkill> {
                     const SizedBox(height: 30),
                     buildDropdownField<String>(
                       controller: _duration,
-                      labelText: Text("Duration:", style: GoogleFonts.hanuman()),
+                      labelText: Text(
+                        "Duration:",
+                        style: GoogleFonts.hanuman(),
+                      ),
                       selectedValue: selectedDurationLabel ?? '7 Days',
                       items: durationMap.keys.toList(),
                       onChanged: (val) {
@@ -269,8 +303,12 @@ class _AddSkillState extends State<AddSkill> {
                     ),
                     const SizedBox(height: 40),
                     ElevatedButton.icon(
-                      // 🔄 Use the new function here
-                      onPressed: uploadAndNavigate,
+                     
+                      onPressed: () {
+                        uploadAndNavigate();
+
+                        Navigator.push(context,MaterialPageRoute(builder: (_)=>HomePage()));
+                      },
                       icon: const Icon(Icons.upload),
                       label: const Text("Submit Skill"),
                       style: ElevatedButton.styleFrom(
@@ -278,7 +316,8 @@ class _AddSkillState extends State<AddSkill> {
                         foregroundColor: Colors.white,
                         minimumSize: const Size(double.infinity, 48),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
                       ),
                     ),
                   ],
@@ -301,3 +340,10 @@ class _AddSkillState extends State<AddSkill> {
   }
 }
 
+extension on String {
+  get uid => null;
+}
+
+extension on Future<void> {
+  void uploadAndNavigate() {}
+}

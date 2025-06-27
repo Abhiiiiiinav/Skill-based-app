@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:skill_builder_app/3_Features/models/task.dart';
 import '3_Features/models/skills.dart';
-import 'package:skill_builder_app/2_User_Interface/add_skills.dart';
+import 'package:skill_builder_app/3_Features/add_skills.dart';
 import 'package:skill_builder_app/2_User_Interface/home_page.dart';
 import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
 import 'package:skill_builder_app/2_User_Interface/sign_up_screen.dart';
@@ -45,7 +45,21 @@ final List<Task> tasks = [
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       // home: 
-      home: HomePage(),
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.data != null) {
+            return  HomePage();
+          }
+          return  LoginScreen();
+        },
+      ),
     );
+    
   }
 }
