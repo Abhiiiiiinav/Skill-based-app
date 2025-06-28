@@ -97,13 +97,13 @@ class _AddSkillState extends State<AddSkill> {
           context,
           MaterialPageRoute(
             builder: (context) => SkillDetailScreen(
-              uid: docRef.id,
+              uid:  FirebaseAuth.instance.currentUser!.uid,
               skillId: docRef.id,
               title: title,
               category: category,
-              duration: durationLabel, // e.g., "90 Days"
-              totalDays: durationInDays, // e.g., 90
-              tasks: [], // Start with an empty list of tasks for the new skill
+              duration: durationLabel, 
+              totalDays: durationInDays, 
+              tasks: [], 
             ),
           ),
         );
@@ -340,10 +340,4 @@ class _AddSkillState extends State<AddSkill> {
   }
 }
 
-extension on String {
-  get uid => null;
-}
 
-extension on Future<void> {
-  void uploadAndNavigate() {}
-}

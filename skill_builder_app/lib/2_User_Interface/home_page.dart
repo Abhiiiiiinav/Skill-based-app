@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
+import 'package:skill_builder_app/3_Features/models/skills.dart';
+import 'package:skill_builder_app/3_Features/models/task.dart';
 import "../3_Features/add_skills.dart";
 
 class HomePage extends StatefulWidget {
@@ -16,6 +18,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Map<String, dynamic>> skills = [];
+  
+  
 
 
 
@@ -37,11 +41,20 @@ class _HomePageState extends State<HomePage> {
           .get();
 
       setState(() {
-        skills = snapshot.docs.map((doc) => doc.data()).toList();
+        skills = snapshot.docs.map(
+                (doc) 
+                {
+                    final data = doc.data() ;
+                    data['id'] = doc.id; // include docRef.id manually here
+                  return data;
+                }
+                ).toList();
+
       });
     } catch (e) {
       print("Error reading skills: $e");
     }
+
   }
 
   @override
@@ -82,11 +95,29 @@ class _HomePageState extends State<HomePage> {
       // Regular Skill Tile
       final skill = skills[index];
       return Card(
+        color: const Color.fromARGB(255, 255, 250, 234),
         margin: EdgeInsets.all(12),
         child: ListTile(
-          onTap: () => {},
-          title: Text(skill['title'] ?? 'No Title',style: GoogleFonts.hanuman(fontWeight: FontWeight.bold,),),
-          subtitle: Text("Category: ${skill['category'] ?? 'No Category'}"),
+        onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => SkillDetailScreen(
+        uid: FirebaseAuth.instance.currentUser!.uid,
+        skillId: skill['id'], // You must include this manually in your fetch
+        title: skill['title'] ?? 'No Title',
+        category: skill['category'] ?? '',
+        duration: skill['duration'].toString(),
+        totalDays: skill['duration'] ?? 0,
+        tasks: (skill['tasks'] as List<dynamic>? ?? [])
+            .map((t) => Task.fromMap(Map<String, dynamic>.from(t)))
+            .toList(),
+      ),
+    ),
+  );
+},
+          title: Text(skill['title'].toString().toUpperCase(),style: GoogleFonts.hanuman(fontWeight: FontWeight.bold, fontSize: 18,color: ColorPalette.mocha),),
+          subtitle: Text("Category: ${skill['category'].toString().toUpperCase()}",style: GoogleFonts.caladea(fontSize: 15),),
           trailing: Text("Duration: ${skill['duration'] ?? '0'} days"),
         ),
       );

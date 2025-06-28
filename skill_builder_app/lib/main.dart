@@ -28,17 +28,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final String uid = "demoUser123";
-final String skillId = "exampleSkillId";
-final String title = "Learn Flutter";
-final String category = "Coding";
-final String duration = "30 Days";
-final int totalDays = 30;
-final List<Task> tasks = [
-  Task(id:"1",title: "Install Flutter", isCompleted: false,createdAt: DateTime.now()),
-  Task(id:'2',title: "Create First App", isCompleted: true,createdAt: DateTime.now()),
-];
-   MyApp({super.key});
+
+   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
