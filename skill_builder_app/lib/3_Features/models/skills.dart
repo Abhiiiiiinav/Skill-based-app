@@ -33,20 +33,20 @@ class _SkillDetailScreenState extends State<SkillDetailScreen> {
   @override
   void initState() {
     super.initState();
-    taskList = List.from(widget.tasks); // Copy
+    taskList = widget.tasks; // Copy
   }
 
-  Future<void> updateTasksToFirebase() async {
-    final ref = FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.uid)
-        .collection("Skills")
-        .doc(widget.skillId);
+Future<void> updateTasksToFirebase() async {
+  final ref = FirebaseFirestore.instance
+      .collection("users")
+      .doc(widget.uid)
+      .collection("Skills")
+      .doc(widget.skillId);
 
-    await ref.update({
-      "tasks": taskList.map((t) => t.toMap()).toList(),
-    });
-  }
+  await ref.update({
+    "tasks": taskList.map((t) => t.toMap()).toList(),
+  });
+}
 
   void addTask() async {
     final String title = _task.text.trim();

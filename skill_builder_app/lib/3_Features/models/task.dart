@@ -1,23 +1,32 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Task {
+  String? id; // Add this
   String title;
   bool isCompleted;
- 
 
-  Task({required this.title, this.isCompleted = false});
+  Task({
+    this.id  ,
+    required this.title,
+    this.isCompleted = false,
+  });
 
   Map<String, dynamic> toMap() {
-    return {'title': title, 'isCompleted': isCompleted};
+    return {
+      'id': id, // Include ID
+      'title': title,
+      'isCompleted': isCompleted,
+    };
   }
 
   factory Task.fromMap(Map<String, dynamic> map) {
     return Task(
+      id: map['id'] ?? '', // Handle ID
       title: map['title'] ?? '',
       isCompleted: map['isCompleted'] ?? false,
-      
-
     );
   }
 }
@@ -25,8 +34,10 @@ class Task {
 class AddTaskPage extends StatefulWidget {
   final String skillId; // Passed from previous screen
   final String uid;
+  
+   final String? taskId;
 
-  const AddTaskPage({super.key, required this.skillId, required this.uid});
+  const AddTaskPage({super.key, required this.skillId, required this.uid, this.taskId});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -40,17 +51,26 @@ class _AddTaskPageState extends State<AddTaskPage> {
 
     final task = Task(title: _taskTitleController.text.trim());
 
-    await FirebaseFirestore.instance
+    final docRef = FirebaseFirestore.instance
         .collection("users")
         .doc(widget.uid)
         .collection("Skills")
         .doc(widget.skillId)
         .collection("Tasks")
-        .add(task.toMap());
+        .doc(widget.taskId);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Task added")),
-    );
+    final snapshot = await docRef.get();
+    final currentTasks = (snapshot.data()?['tasks'] as List<dynamic>? ?? []) //! Might not work
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList();
+
+    currentTasks.add(task.toMap());
+
+    await docRef.update({'tasks': currentTasks});
+
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text("Task added")));
 
     _taskTitleController.clear();
   }
@@ -74,11 +94,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
             ElevatedButton(
               onPressed: addTaskToFirestore,
               child: const Text("Add Task"),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-

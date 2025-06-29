@@ -49,14 +49,30 @@ class _HomePageState extends State<HomePage> {
                   return data;
                 }
                 ).toList();
-
+      
       });
     } catch (e) {
       print("Error reading skills: $e");
     }
 
   }
+Future<List<Task>> fetchTasks(String uid, String skillId) async {
+  final docSnapshot = await FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("Skills")
+      .doc(skillId)
+      .get();
 
+  if (!docSnapshot.exists) return [];
+
+  final data = docSnapshot.data();
+  final tasksRaw = data?['tasks'] as List<dynamic>? ?? [];
+
+  return tasksRaw.map((taskMap) {
+    return Task.fromMap(Map<String, dynamic>.from(taskMap));
+  }).toList();
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,64 +82,57 @@ class _HomePageState extends State<HomePage> {
         children: [
           Expanded(
   child: ListView.builder(
-    itemCount: skills.length + 1, // +1 for the Add Skill tile
+    itemCount: skills.length + 1, 
     itemBuilder: (context, index) {
       if (index == skills.length) {
-        // Special Tile at End
         return Card(
-          margin: EdgeInsets.all(12),
+          margin: const EdgeInsets.all(12),
           color: Colors.green[100],
           child: ListTile(
-            leading: Icon(Icons.add, color: Colors.green[800]),
-            title: Text(
-              "Add a New Skill",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.green[900],
-              ),
-            ),
+            leading: const Icon(Icons.add, color: Colors.green),
+            title: const Text("Add a New Skill"),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => AddSkill()),
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const AddSkill()));
             },
           ),
         );
       }
 
-      // Regular Skill Tile
       final skill = skills[index];
       return Card(
+        margin: const EdgeInsets.all(12),
         color: const Color.fromARGB(255, 255, 250, 234),
-        margin: EdgeInsets.all(12),
         child: ListTile(
-        onTap: () {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => SkillDetailScreen(
-        uid: FirebaseAuth.instance.currentUser!.uid,
-        skillId: skill['id'], // You must include this manually in your fetch
-        title: skill['title'] ?? 'No Title',
-        category: skill['category'] ?? '',
-        duration: skill['duration'].toString(),
-        totalDays: skill['duration'] ?? 0,
-        tasks: (skill['tasks'] as List<dynamic>? ?? [])
-            .map((t) => Task.fromMap(Map<String, dynamic>.from(t)))
-            .toList(),
-      ),
-    ),
-  );
-},
-          title: Text(skill['title'].toString().toUpperCase(),style: GoogleFonts.hanuman(fontWeight: FontWeight.bold, fontSize: 18,color: ColorPalette.mocha),),
-          subtitle: Text("Category: ${skill['category'].toString().toUpperCase()}",style: GoogleFonts.caladea(fontSize: 15),),
-          trailing: Text("Duration: ${skill['duration'] ?? '0'} days"),
+          title: Text(
+            skill['title'] ?? 'No Title',
+            style: GoogleFonts.hanuman(fontWeight: FontWeight.bold),
+          ),
+          subtitle: Text("Category: ${skill['category'] ?? ''}"),
+          trailing: Text("Duration: ${skill['duration']} days"),
+          onTap: () async {
+            final uid = FirebaseAuth.instance.currentUser!.uid;
+            final tasks = await fetchTasks(uid, skill['id']);
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => SkillDetailScreen(
+                  uid: uid,
+                  skillId: skill['id'],
+                  title: skill['title'],
+                  category: skill['category'],
+                  duration: skill['duration'].toString(),
+                  totalDays: skill['duration'],
+                  tasks: tasks,
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
+            },
+          ),
         ),
-      );
-    },
-  ),
-),
           ElevatedButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>AddSkill())), child: Text("Add a Skill"))
         ],
       ),
