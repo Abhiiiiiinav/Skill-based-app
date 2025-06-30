@@ -16,4 +16,12 @@ class ColorPalette {
   static const Color neutralMediumGray = Color(0xFF94A3B8); // rgb(148, 163, 184)
   static const Color mocha = Color(0xFF8B7355); // rgb(139, 115, 85)
   static const Color warmWhite = Color(0xFFFEFEFE); // rgb(254, 254, 254)
+
+  
+  static const Color deepTeal = Color(0xFF023436);   // #023436
+  static const Color sand = Color(0xFFD9D2B6);       // #D9D2B6
+  static const Color aquaMint = Color(0xFF1B998B);   // #1B998B
+  static const Color goldenTan = Color(0xFFE1A95F);  // #E1A95F
+  static const Color ivory = Color(0xFFFFFAF0);       // #FFFAF0
+
 }

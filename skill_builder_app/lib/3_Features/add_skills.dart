@@ -101,8 +101,8 @@ class _AddSkillState extends State<AddSkill> {
               skillId: docRef.id,
               title: title,
               category: category,
-              duration: durationLabel, 
-              totalDays: durationInDays, 
+              duration: durationInDays, 
+              
               tasks: [], 
             ),
           ),

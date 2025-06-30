@@ -32,7 +32,7 @@ Widget _buildTextField({
       const SizedBox(height: 8),
       Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 234, 234, 234),
+          color: const Color.fromARGB(255, 226, 226, 226),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: Colors.grey[200]!),
         ),
@@ -42,14 +42,14 @@ Widget _buildTextField({
           obscureText: isPassword && !isPasswordVisible,
           decoration: InputDecoration(
             hintText: hint,
-            prefixIcon: Icon(icon, color: Colors.grey[400]),
+            prefixIcon: Icon(icon, color: const Color.fromARGB(255, 165, 165, 165)),
             suffixIcon: isPassword
                 ? IconButton(
                     icon: Icon(
                       isPasswordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.grey[400],
+                      color: const Color.fromARGB(255, 171, 171, 171),
                     ),
                     onPressed: onTogglePassword,
                   )
@@ -78,7 +78,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController email = TextEditingController();
 
   final TextEditingController pass = TextEditingController();
-  
+  void togglePassword(isPasswordVisible){
+    setState(() {
+      isPasswordVisible = !isPasswordVisible;
+      }
+      
+    );
+                          
+  }
   Future<void> loginWithEmailPassword() async {
     try {
       final usercredential = await FirebaseAuth.instance
@@ -106,9 +113,11 @@ class _LoginScreenState extends State<LoginScreen> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color.fromARGB(255, 0, 245, 147),
-            Color.fromARGB(255, 0, 209, 236),
+            ColorPalette.successEmerald,
+            ColorPalette.aquaMint,
+            ColorPalette.primaryNavy,
           ],
+          
         ),
       ),
       child: SafeArea(
@@ -124,13 +133,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: 400,
                   decoration: BoxDecoration(
                     // image: DecorationImage(image: ),
-                    color: const Color.fromARGB(255, 246, 250, 249),
+                    color: ColorPalette.neutralLightGray,
 
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color.fromARGB(255, 192, 251, 239),
-                        blurRadius: 20,
+                        color: ColorPalette.neutralLightGray,
+                        blurRadius: 10,
                       ),
                     ],
                   ),
@@ -163,6 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               hint: "Enter  the Password",
                               icon: Icons.password,
                               isPassword: true,
+
                             ),
                             SizedBox(height: 10),
                             Align(
@@ -179,9 +189,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(
                                   colors: [
-                                    ColorPalette.lightpowdergreen,
-                                    ColorPalette.lightpowderblue,
+                                    ColorPalette.successEmerald.withAlpha(100),
+                                    // ColorPalette.aquaMint,
+                                    ColorPalette.primaryNavy.withAlpha(100),
                                   ],
+                                  
                                 ),
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(12),
