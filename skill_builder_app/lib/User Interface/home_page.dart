@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
-import 'package:skill_builder_app/3_Features/add_skills.dart';
-import 'package:skill_builder_app/3_Features/models/skills.dart';
-import 'package:skill_builder_app/3_Features/models/task.dart';
+import 'package:skill_builder_app/User%20Interface/colorpallate.dart';
+import 'package:skill_builder_app/Models%20and%20Features/add_skills.dart';
+import 'package:skill_builder_app/Models%20and%20Features/models/skills.dart';
+import 'package:skill_builder_app/Models%20and%20Features/models/task.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

@@ -1,7 +1,9 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
+import 'package:skill_builder_app/User%20Interface/login_screen.dart';
 
 import 'colorpallate.dart';
 
@@ -66,7 +68,7 @@ Widget buildTextField({
 
 class SignUpPage extends StatefulWidget {
 
-  SignUpPage({super.key});
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -179,13 +181,55 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           SizedBox(height: 10),
-                          Align(
-                            alignment: Alignment.bottomLeft,
-                            child: ElevatedButton(
-                              onPressed: () {
-                              createAcc();
-                            },
-                              child: Text("Submit"),
+                          Container(
+                              width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    ColorPalette.successEmerald.withAlpha(100),
+                                    // ColorPalette.aquaMint,
+                                    ColorPalette.primaryNavy.withAlpha(100),
+                                  ],
+                                  
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 11,
+                                    color: const Color.fromARGB(
+                                      82,
+                                      22,
+                                      158,
+                                      155,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  createAcc();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.transparent,
+                                  shadowColor: Colors.transparent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.circular(
+                                      10,
+                                    ),
+                                  ),
+                                ),
+                              child:Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20,
+                                    color: ColorPalette.secondaryCream,
+                                    letterSpacing: 1.4,
+                                  ),
+                                ),
                             ),
                           ),
                         ],

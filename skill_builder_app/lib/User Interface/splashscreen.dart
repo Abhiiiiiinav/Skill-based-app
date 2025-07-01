@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
+import 'package:skill_builder_app/User%20Interface/colorpallate.dart';
 
 class QuoteModel {
   final String text;

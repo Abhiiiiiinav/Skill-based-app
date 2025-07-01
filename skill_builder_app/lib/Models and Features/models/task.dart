@@ -3,7 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
+import 'package:skill_builder_app/User%20Interface/colorpallate.dart';
 
 class Task {
   String? id;

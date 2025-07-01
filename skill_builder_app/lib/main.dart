@@ -3,12 +3,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:skill_builder_app/2_User_Interface/splashscreen.dart';
-import 'package:skill_builder_app/3_Features/models/task.dart';
-import '3_Features/models/skills.dart';
-import 'package:skill_builder_app/3_Features/add_skills.dart';
-import 'package:skill_builder_app/2_User_Interface/home_page.dart';
-import 'package:skill_builder_app/2_User_Interface/login_screen.dart';
+import 'package:skill_builder_app/User%20Interface/splashscreen.dart';
+import 'package:skill_builder_app/Models%20and%20Features/models/task.dart';
+import 'Models and Features/models/skills.dart';
+import 'package:skill_builder_app/Models%20and%20Features/add_skills.dart';
+import 'package:skill_builder_app/User%20Interface/home_page.dart';
+import 'package:skill_builder_app/User%20Interface/login_screen.dart';
 
 
 void main() async {

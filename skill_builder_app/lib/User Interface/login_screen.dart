@@ -3,9 +3,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skill_builder_app/3_Features/add_skills.dart';
-import 'package:skill_builder_app/2_User_Interface/home_page.dart';
-import 'package:skill_builder_app/2_User_Interface/sign_up_screen.dart';
+import 'package:skill_builder_app/Models%20and%20Features/add_skills.dart';
+import 'package:skill_builder_app/User%20Interface/home_page.dart';
+import 'package:skill_builder_app/User%20Interface/sign_up_screen.dart';
 import "colorpallate.dart";
 
 Widget _buildTextField({

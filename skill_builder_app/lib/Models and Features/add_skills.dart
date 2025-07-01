@@ -4,11 +4,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:skill_builder_app/2_User_Interface/colorpallate.dart';
-import 'package:skill_builder_app/2_User_Interface/home_page.dart';
-import 'package:skill_builder_app/3_Features/models/skills.dart';
+import 'package:skill_builder_app/User%20Interface/colorpallate.dart';
+import 'package:skill_builder_app/User%20Interface/home_page.dart';
+import 'package:skill_builder_app/Models%20and%20Features/models/skills.dart';
 
-import 'package:skill_builder_app/3_Features/models/skills.dart';
+import 'package:skill_builder_app/Models%20and%20Features/models/skills.dart';
 
 class AddSkill extends StatefulWidget {
   const AddSkill({super.key});
