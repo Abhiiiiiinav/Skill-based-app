@@ -4,9 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:skill_builder_app/User%20Interface/splashscreen.dart';
-import 'package:skill_builder_app/Models%20and%20Features/models/task.dart';
-import 'Models and Features/models/skills.dart';
-import 'package:skill_builder_app/Models%20and%20Features/add_skills.dart';
+
 import 'package:skill_builder_app/User%20Interface/home_page.dart';
 import 'package:skill_builder_app/User%20Interface/login_screen.dart';
 
